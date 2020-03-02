@@ -14,9 +14,10 @@ module "primary_subnet" {
   sub_vpc_id                    = "${aws_vpc.this.id}"
   sub_environment               = "${var.vpc_environment}"
   sub_cidr_block                = "${var.vpc_primary_cidr}"
-  sub_az                        = "${var.vpc_primary_az}"
+  sub_azs                       = "${var.vpc_primary_az}"
   sub_name                      = "${var.vpc_primary_subnet_name}"
   sub_public_ip_on_launch       = "${var.vpc_primary_public_ip_on_lauch}"
+  subnets                       = "${var.vpc_primary_cidr}"
 }
 
 module "secondary_subnet" {
@@ -24,9 +25,10 @@ module "secondary_subnet" {
   sub_vpc_id                    = "${aws_vpc.this.id}"
   sub_environment               = "${var.vpc_environment}"
   sub_cidr_block                = "${var.vpc_secondary_cidr}"
-  sub_az                        = "${var.vpc_secondary_az}"
+  sub_azs                       = "${var.vpc_secondary_az}"
   sub_name                      = "${var.vpc_secondary_subnet_name}"
   sub_public_ip_on_launch       = "${var.vpc_secondary_public_ip_on_lauch}"
+  subnets                       = "${var.vpc_secondary_cidr}"
 }
 #resource "aws_route_table_association" "primary" {
 #  count                         = "${length(var.vpc_primary_cidr)}"
