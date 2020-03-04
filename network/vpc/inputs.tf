@@ -23,10 +23,10 @@ variable "vpc_secondary_cidr" {
     default = "10.61.0.0/24"
 }
 variable "vpc_primary_az" {
-    default = "euw2-az1"
+    default = ["eu-west-2a"]
 }
 variable "vpc_secondary_az" {
-    default = "euw2-az2"
+    default = ["eu-west-2a"]
 }
 variable "vpc_tags" {
     type = "map"

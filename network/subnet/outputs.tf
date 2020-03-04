@@ -1,10 +1,10 @@
 output "sub_id" {
-    value = "${aws_subnet.this[count.index].id}"
+    value = "${aws_subnet.this.*.id}"
     description = "Subnet ID"
 }
 
 output "sub_arn" {
-    value = "${aws_subnet.*.id[count.index]}"
+    value = "${aws_subnet.this.*.id}"
     description = "Subnet ARN"
 }
 
