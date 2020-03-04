@@ -22,9 +22,12 @@ variable "sub_tags" {
     default = {}
 }
 variable "sub_azs" {
-    type = "list"
+    description = "A list of AZs"
+    type        = list(string)
     default = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 }
 variable "subnets" {
-    type = "list"
+    description = "A list of subnets"
+    type        = list(string)
+    default     = []
 }
