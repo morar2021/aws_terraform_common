@@ -48,10 +48,10 @@ output "vpc_owner-id" {
     value = "${aws_vpc.this.owner_id}"
 }
 output "primary_subnet_map" {
-    value = ["${module.primary_subnet.sub_id}"]
+    value = "${module.primary_subnet.sub_id}"
 }
 output "secondary_subnet_map" {
-    value = ["${module.secondary_subnet.sub_id}"]
+    value = "${module.secondary_subnet.sub_id}"
 }
 
 output "vpc_id" {
