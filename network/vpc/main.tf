@@ -31,6 +31,13 @@ module "primary_subnet" {
   sub_name                      = var.vpc_primary_subnet_name
   sub_public_ip_on_launch       = var.vpc_primary_public_ip_on_lauch
   subnets                       = var.vpc_primary_sub_cidr
+
+  sub_tags = merge(
+    {
+      "Name" = var.vpc_primary_subnet_name
+      "Tier" = "Primary"
+    }
+  )
 }
 
 module "secondary_subnet" {
@@ -42,6 +49,13 @@ module "secondary_subnet" {
   sub_name                      = var.vpc_secondary_subnet_name
   sub_public_ip_on_launch       = var.vpc_secondary_public_ip_on_lauch
   subnets                       = var.vpc_secondary_sub_cidr
+
+  sub_tags = merge(
+    {
+      "Name" = var.vpc_secondary_subnet_name
+      "Tier" = "Secondary"
+    }
+  )
 }
 
 ###################

@@ -1,6 +1,9 @@
 variable "ec2_instance_name" {
     default = "ec2_instance_default"
 }
+variable "vpc_id" {
+  
+}
 variable "instance_type" {
     default = "t2.micro"
 }

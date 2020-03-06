@@ -4,20 +4,12 @@ provider "aws" {
 
 module "ec2_instance" {
   source = "../"
-
-
+  
   instance_count = 1
-
-  name          = "example-normal"
+  name          = var.ec2_instance_name
   ami           = var.ami_name
-  instance_type = "c5.large"
-  subnet_id     = tolist(data.aws_subnet_ids.all.ids)[0]
-
-  vpc_security_group_ids      = [module.security_group.this_security_group_id]
-  associate_public_ip_address = true
-  placement_group             = aws_placement_group.web.id
-
-  user_data_base64 = base64encode(local.user_data)
+  instance_type = var.instance_type
+  associate_public_ip_address = false
 
   root_block_device = [
     {
@@ -31,10 +23,14 @@ module "ec2_instance" {
       device_name = "/dev/sdf"
       volume_type = "gp2"
       volume_size = 5
-      encrypted   = true
-      kms_key_id  = aws_kms_key.this.arn
     }
   ]
+
+user_data          = <<EOF
+#!/bin/bash
+yum -y update
+echo "Hello World"
+EOF
 
   tags = {
     "Env"      = "Private"
@@ -48,9 +44,8 @@ module "ec2_with_network_interface" {
   instance_count = 1
 
   name            = "example-network"
-  ami             = data.aws_ami.amazon_linux.id
-  instance_type   = "c5.large"
-  placement_group = aws_placement_group.web.id
+  ami             = var.ami_name
+  instance_type   = "t2.medium"
 
   network_interface = [
     {
