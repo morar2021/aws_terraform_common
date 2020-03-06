@@ -2,35 +2,29 @@ module "environment" {
   source                      = "../../aws/remotestate-map"
   subnet_search               = var.ec2_subnet_name
 }
-module "tag" {
+module "tags" {
   source                      = "../../aws/tags"
 }
-module "network_interface_security_group" {
-  source                      = "../../network/security_group"
-  secgrp_name                 = "test"
-  secgrp_vpc_id               =  module.environment.vpc_id
-  security_group_rules        = var.security_group_rules
-}
+#module "network_interface_security_group" {
+#  source                      = "../../network/security_group"
+#  secgrp_name                 = var.secgrp_name
+#  secgrp_vpc_id               =  module.environment.vpc_id
+#  security_group_rules        = var.security_group_rules
+#k}
 module "ami_search" {
   source                      = "../../aws/ami"
   ami_search_name             = var.ami_search_name
 }
 
 resource "aws_instance" "this" {
-  count = var.instance_count
+  count                       = var.instance_count
+  ami                         = module.ami_search.ami_id
+  instance_type               = var.instance_type
+  user_data                   = var.user_data
 
-  ami              = module.ami_search.value
-  instance_type    = var.instance_type
-  user_data        = var.user_data
-  user_data_base64 = var.user_data_base64
- #subnet_id = length(var.network_interface) > 0 ? null : element(
- #   distinct(compact(concat([var.subnet_id], var.subnet_ids))),
- #   count.index,
- # )
   subnet_id = length(var.network_interface) > 0 ? null : element(module.environment.private_subnets, count.index)
 
-  #vpc_security_group_ids = var.vpc_security_group_ids
-
+  vpc_security_group_ids      = var.vpc_security_group_ids
   associate_public_ip_address = var.associate_public_ip_address
   private_ip                  = length(var.private_ips) > 0 ? element(var.private_ips, count.index) : var.private_ip
 
@@ -73,15 +67,15 @@ resource "aws_instance" "this" {
 
   tags = merge(
     {
-      "Name" = var.instance_count > 1 || var.use_num_suffix ? format("%s-%d", var.name, count.index + 1) : var.name
+      "Name" = var.instance_count > 1 || var.use_num_suffix ? format("%s-%d", var.ec2_instance_name, count.index + 1) : var.ec2_instance_name
     },
-    var.tags,
+    #var.ec2_tags,
   )
 
   volume_tags = merge(
     {
-      "Name" = var.instance_count > 1 || var.use_num_suffix ? format("%s-%d", var.name, count.index + 1) : var.name
+      "Name" = var.instance_count > 1 || var.use_num_suffix ? format("%s-%d", var.ec2_instance_name, count.index + 1) : var.ec2_instance_name
     },
-    var.volume_tags,
+    #var.volume_tags,
   )
 }
