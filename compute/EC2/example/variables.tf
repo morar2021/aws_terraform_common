@@ -18,4 +18,8 @@ variable "ami_name" {
 
 variable "security_group_rules" {
 }
+variable "user_data" {
+    default = ""
+}
+
 

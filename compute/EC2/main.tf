@@ -23,12 +23,13 @@ resource "aws_instance" "this" {
   instance_type    = var.instance_type
   user_data        = var.user_data
   user_data_base64 = var.user_data_base64
-  subnet_id = length(var.network_interface) > 0 ? null : element(
-    distinct(compact(concat([var.subnet_id], var.subnet_ids))),
-    count.index,
-  )
-#  key_name               = var.key_name
-  vpc_security_group_ids = var.vpc_security_group_ids
+ #subnet_id = length(var.network_interface) > 0 ? null : element(
+ #   distinct(compact(concat([var.subnet_id], var.subnet_ids))),
+ #   count.index,
+ # )
+  subnet_id = length(var.network_interface) > 0 ? null : element(module.environment.private_subnets, count.index)
+
+  #vpc_security_group_ids = var.vpc_security_group_ids
 
   associate_public_ip_address = var.associate_public_ip_address
   private_ip                  = length(var.private_ips) > 0 ? element(var.private_ips, count.index) : var.private_ip

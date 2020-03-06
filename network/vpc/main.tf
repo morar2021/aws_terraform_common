@@ -23,25 +23,39 @@ resource "aws_vpc" "this" {
 }
 
 module "primary_subnet" {
-  source                  = "../subnet/"
-  sub_vpc_id              = aws_vpc.this.id
-  sub_environment         = var.vpc_environment
-  sub_cidr_block          = var.vpc_primary_sub_cidr
-  sub_azs                 = var.vpc_primary_az
-  sub_name                = var.vpc_primary_subnet_name
-  sub_public_ip_on_launch = var.vpc_primary_public_ip_on_lauch
-  subnets                 = var.vpc_primary_sub_cidr
+  source                        = "../subnet/"
+  sub_vpc_id                    = aws_vpc.this.id
+  sub_environment               = var.vpc_environment
+  sub_cidr_block                = var.vpc_primary_sub_cidr
+  sub_azs                       = var.vpc_primary_az
+  sub_name                      = var.vpc_primary_subnet_name
+  sub_public_ip_on_launch       = var.vpc_primary_public_ip_on_lauch
+  subnets                       = var.vpc_primary_sub_cidr
+
+  sub_tags = merge(
+    {
+      "Name" = var.vpc_primary_subnet_name
+      "Tier" = "Primary"
+    }
+  )
 }
 
 module "secondary_subnet" {
-  source                  = "../subnet/"
-  sub_vpc_id              = aws_vpc.this.id
-  sub_environment         = var.vpc_environment
-  sub_cidr_block          = var.vpc_secondary_sub_cidr
-  sub_azs                 = var.vpc_secondary_az
-  sub_name                = var.vpc_secondary_subnet_name
-  sub_public_ip_on_launch = var.vpc_secondary_public_ip_on_lauch
-  subnets                 = var.vpc_secondary_sub_cidr
+  source                        = "../subnet/"
+  sub_vpc_id                    = aws_vpc.this.id
+  sub_environment               = var.vpc_environment
+  sub_cidr_block                = var.vpc_secondary_sub_cidr
+  sub_azs                       = var.vpc_secondary_az
+  sub_name                      = var.vpc_secondary_subnet_name
+  sub_public_ip_on_launch       = var.vpc_secondary_public_ip_on_lauch
+  subnets                       = var.vpc_secondary_sub_cidr
+
+  sub_tags = merge(
+    {
+      "Name" = var.vpc_secondary_subnet_name
+      "Tier" = "Secondary"
+    }
+  )
 }
 
 ###################
