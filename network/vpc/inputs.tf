@@ -44,3 +44,6 @@ variable "vpc_secondary_public_ip_on_lauch" {
 variable "vpc_primary_public_ip_on_lauch" {
     default = "false"
 }
+variable "nat_subnet" {
+    default = ""
+}
