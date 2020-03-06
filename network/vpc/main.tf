@@ -15,11 +15,11 @@ locals {
 }
 
 resource "aws_vpc" "this" {
-  cidr_block                    = var.vpc_cidr
-  instance_tenancy              = var.vpc_instance_tenancy
-  enable_dns_support            = var.vpc_enable_dns_support
-  enable_dns_hostnames          = var.vpc_enable_dns_hostnames
-  tags                          = var.vpc_tags
+  cidr_block           = var.vpc_cidr
+  instance_tenancy     = var.vpc_instance_tenancy
+  enable_dns_support   = var.vpc_enable_dns_support
+  enable_dns_hostnames = var.vpc_enable_dns_hostnames
+  tags                 = var.vpc_tags
 }
 
 module "primary_subnet" {
@@ -115,7 +115,23 @@ resource "aws_internet_gateway" "this" {
 
   vpc_id = local.vpc_id
 
-  tags = merge (
+  tags = merge(
     var.vpc_tags
   )
+}
+
+###################
+# NAT Gateway
+###################
+resource "aws_eip" "this" {
+  vpc  = "${aws_vpc.this.id}"
+  tags = "${var.vpc_tags}"
+}
+resource "aws_nat_gateway" "this" {
+  allocation_id = "${aws_eip.this.id}"
+  subnet_id     = "${var.nat_subnet}" #needs changing var.nat_subnet or a lookup
+  tags          = "${var.vpc_tags}"
+  depends_on = [
+    ["aws_eip.this"]
+  ]
 }
