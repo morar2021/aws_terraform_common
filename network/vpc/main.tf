@@ -123,15 +123,15 @@ resource "aws_internet_gateway" "this" {
 ###################
 # NAT Gateway
 ###################
-resource "aws_eip" "this" {
-  vpc  = "${aws_vpc.this.id}"
-  tags = "${var.vpc_tags}"
-}
-resource "aws_nat_gateway" "this" {
-  allocation_id = "${aws_eip.this.id}"
-  subnet_id     = "${var.nat_subnet}" #needs changing var.nat_subnet or a lookup
-  tags          = "${var.vpc_tags}"
-  depends_on = [
-    ["aws_eip.this"]
-  ]
-}
+#resource "aws_eip" "this" {
+#  vpc  = "${aws_vpc.this.id}"
+#  tags = "${var.vpc_tags}"
+#}
+#resource "aws_nat_gateway" "this" {
+#  allocation_id = "${aws_eip.this.id}"
+#  subnet_id     = "${var.nat_subnet}" #needs changing var.nat_subnet or a lookup
+#  tags          = "${var.vpc_tags}"
+#  depends_on = [
+#    ["aws_eip.this"]
+#  ]
+#}
