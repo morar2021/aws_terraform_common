@@ -1,3 +1,5 @@
+#Based on Hashicorp / Community EC2 Modules
+
 module "environment" {
   source                      = "../../aws/remotestate-map"
   subnet_search               = var.ec2_subnet_name
