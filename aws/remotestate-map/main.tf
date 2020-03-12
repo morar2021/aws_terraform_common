@@ -1,8 +1,8 @@
 variable "aws_bucket" {
-    default = "bamaluztfstate"
+    default = "hothouse"
 }
 variable "aws_key" {
-    default = "production/core/terraform.tfstate"
+    default = "proofofconcept/core/terraform.tfstate"
 }
 
 variable "aws_region" {
