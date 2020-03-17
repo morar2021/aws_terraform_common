@@ -87,4 +87,6 @@ resource "aws_instance" "this" {
   depends_on = [
     module.network_interface_security_group
   ]
+
+  key_name = var.key_name
 }

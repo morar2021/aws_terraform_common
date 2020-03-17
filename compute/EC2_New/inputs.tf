@@ -99,3 +99,6 @@ variable "security_groups" {
 variable "secgrp_name" {
     default = ""
 }
+variable "key_name" {
+  default = ""
+}
